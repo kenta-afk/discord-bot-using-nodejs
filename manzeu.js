@@ -30,10 +30,16 @@ async function playAudio(message) {
         const resource = createAudioResource(stream);
         player.play(resource);
         connection.subscribe(player);
+
+        // 音声が再生され終わったらボイスチャンネルから退出する
+        player.on('idle', () => {
+            connection.destroy();
+        });
     } else {
         message.reply('ボイスチャンネルに接続してください。');
     }
 }
+
 //client event 登録
 client.on(Events.MessageCreate, async (message) => {
     const command = message.content;
