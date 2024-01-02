@@ -40,6 +40,52 @@ async function playAudio(message) {
     }
 }
 
+// 新しい非同期の音声再生関数
+async function playAnotherAudio(message) {
+    if (message.member.voice.channel) {
+        const url = 'https://youtu.be/33DzE-64rp4?si=ESXAF8z7oJTQyEDS'; // 新しいYouTubeのURL
+        const connection = joinVoiceChannel({
+            channelId: message.member.voice.channel.id, // メッセージを送信したユーザーのボイスチャンネルID
+            guildId: message.guild.id, // ギルドID
+            adapterCreator: message.guild.voiceAdapterCreator, // アダプタークリエーター
+        });
+        const player = createAudioPlayer();
+        const stream = ytdl(url, { filter: 'audioonly' });
+        const resource = createAudioResource(stream);
+        player.play(resource);
+        connection.subscribe(player);
+
+        // 音声が再生され終わったらボイスチャンネルから退出する
+        player.on('idle', () => {
+            connection.destroy();
+        });
+    } else {
+        message.reply('ボイスチャンネルに接続してください。');
+    }
+}
+// 新しい非同期の音声再生関数
+async function playThirdAudio(message) {
+    if (message.member.voice.channel) {
+        const url = 'https://www.youtube.com/watch?v=zzrKab-dGrA'; // 新しいYouTubeのURL
+        const connection = joinVoiceChannel({
+            channelId: message.member.voice.channel.id, // メッセージを送信したユーザーのボイスチャンネルID
+            guildId: message.guild.id, // ギルドID
+            adapterCreator: message.guild.voiceAdapterCreator, // アダプタークリエーター
+        });
+        const player = createAudioPlayer();
+        const stream = ytdl(url, { filter: 'audioonly' });
+        const resource = createAudioResource(stream);
+        player.play(resource);
+        connection.subscribe(player);
+
+        // 音声が再生され終わったらボイスチャンネルから退出する
+        player.on('idle', () => {
+            connection.destroy();
+        });
+    } else {
+        message.reply('ボイスチャンネルに接続してください。');
+    }
+}
 //client event 登録
 client.on(Events.MessageCreate, async (message) => {
     const command = message.content;
@@ -54,8 +100,20 @@ client.on(Events.MessageCreate, async (message) => {
         await message.reply("ぽぅぽ,新潟産のコシヒカリやないかって！！")
     }
 
+    if (command === "ガチ") {
+        await message.reply("ガチイク🗿🍷ガチイク🗿🍷ガチイク🗿🍷ガチイク🗿🍷ガチイク🗿🍷ガチイク🗿🍷ガチイク🗿🍷ガチイク🗿🍷ガチイク🗿🍷ガチイク🗿🍷ガチイク🗿🍷ガチイク🗿🍷ガチイク🗿🍷ガチ
+イク🗿🍷ガチイク🗿🍷")
+    }
+
     if (command === 'まんぜうライブ') {
         await playAudio(message);
     }
 
+    if (command === 'スイカ') {
+        await playAnotherAudio(message);
+    }
+
+    if (command === "12345ライブ") {
+        await playThirdAudio(message);
+    }
 });
